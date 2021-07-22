@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import styled from "styled-components";
+import styled from "styled-components/native";
 import Btn from "../../components/Auth/Btn";
 import Input from "../../components/Auth/Input";
 import DismissKeyboard from "../../components/DismissKeyboard";
@@ -23,9 +23,9 @@ const InputContainer = styled.View`
   margin-bottom: 30px;
 `;
 
-export default () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+export default ({ route: { params } }) => {
+  const [username, setUsername] = useState(params.email);
+  const [password, setPassword] = useState(params.password);
   const handleSubmit = () => alert(`${username}${password}`);
   const dismissKeyboard = () => Keyboard.dismiss();
   return (
@@ -43,8 +43,7 @@ export default () => {
             <Input
               value={password}
               placeholder="Password"
-              autoCapitalize="none"
-              isPasswrd={true}
+              isPassword={true}
               stateFn={setPassword}
             />
           </InputContainer>
