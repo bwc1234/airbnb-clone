@@ -1,28 +1,24 @@
-import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { logIn, logOut } from '../redux/usersSlice';
-import { NavigationContainer } from '@react-navigation/native';
+import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import { logIn, logOut } from "../redux/usersSlice";
+import { NavigationContainer } from "@react-navigation/native";
 
-import Auth from '../navigation/Auth';
-
+import Auth from "../navigation/Auth";
 
 export default () => {
-    const {isLoggedIn} = useSelector(state => state.usersReducer);
+  const { isLoggedIn } = useSelector((state) => state.usersReducer);
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
-
-    return (
-        <NavigationContainer>
-            {isLoggedIn ? (
-                <TouchableOpacity onPress={() => dispatch(logOut())}>
-                    <Text>Log Out</Text>
-                </TouchableOpacity>
-            ) : (
-                <Auth />
-            )}            
-        </NavigationContainer>
-        
-    );
-}
-
+  return (
+    <NavigationContainer>
+      {isLoggedIn ? (
+        <TouchableOpacity onPress={() => dispatch(logOut())}>
+          <Text>Log Out</Text>
+        </TouchableOpacity>
+      ) : (
+        <Auth />
+      )}
+    </NavigationContainer>
+  );
+};
