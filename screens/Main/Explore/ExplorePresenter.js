@@ -11,6 +11,6 @@ const Text = styled.Text``;
 
 export default () => (
   <Container>
-    <Text>Map</Text>
+    <Text>Explore</Text>
   </Container>
 );
