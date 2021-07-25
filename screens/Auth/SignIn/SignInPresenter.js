@@ -15,30 +15,28 @@ const InputContainer = styled.View`
   margin-bottom: 30px;
 `;
 
-export default ({ email, setEmail, password, setPassword, handleSubmit }) => {
-  return (
-    <DismissKeyboard>
-      <Container>
-        <StatusBar barStyle="dark-content" />
-        <KeyboardAvoidingView behavior="position">
-          <InputContainer>
-            <Input
-              value={email}
-              placeholder="Email"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              stateFn={setEmail}
-            />
-            <Input
-              value={password}
-              placeholder="Password"
-              isPassword={true}
-              stateFn={setPassword}
-            />
-          </InputContainer>
-          <Btn text={"Sign In"} accent onPress={handleSubmit}></Btn>
-        </KeyboardAvoidingView>
-      </Container>
-    </DismissKeyboard>
-  );
-};
+export default ({ email, setEmail, password, setPassword, handleSubmit }) => (
+  <DismissKeyboard>
+    <Container>
+      <StatusBar barStyle="dark-content" />
+      <KeyboardAvoidingView behavior="position">
+        <InputContainer>
+          <Input
+            value={email}
+            placeholder="Email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            stateFn={setEmail}
+          />
+          <Input
+            value={password}
+            placeholder="Password"
+            isPassword={true}
+            stateFn={setPassword}
+          />
+        </InputContainer>
+        <Btn text={"Sign In"} accent onPress={handleSubmit}></Btn>
+      </KeyboardAvoidingView>
+    </Container>
+  </DismissKeyboard>
+);
