@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import AppLoading from "expo-app-loading";
 import { Asset } from "expo-asset";
-import { Ionicons } from '@expo/vector-icons';
-import * as Font from 'expo-font';
+import { Ionicons } from "@expo/vector-icons";
+import * as Font from "expo-font";
 import { Image } from "react-native";
-import { PersistGate } from 'redux-persist/integration/react'
+import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 
 import Gate from "./components/Gate";
 import store, { persistor } from "./redux/store";
 
-const cacheImages = images =>
-  images.map(image => {
+const cacheImages = (images) =>
+  images.map((image) => {
     if (typeof image === "string") {
       return Image.prefetch(image);
     } else {
@@ -19,7 +19,7 @@ const cacheImages = images =>
     }
   });
 
-  const cacheFonts = fonts => fonts.map(font => Font.loadAsync(font));
+const cacheFonts = (fonts) => fonts.map((font) => Font.loadAsync(font));
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
@@ -27,12 +27,13 @@ export default function App() {
   const loadAssets = async () => {
     const images = [
       require("./assets/loginBg.jpg"),
-      "http://logok.org/wp-content/uploads/2014/07/airbnb-logo-belo-219x286.png"
+      require("./assets/roomDefault.jpg"),
+      "http://logok.org/wp-content/uploads/2014/07/airbnb-logo-belo-219x286.png",
     ];
     const fonts = [Ionicons.font];
     const imagePromises = cacheImages(images);
     const fontPromises = cacheFonts(fonts);
-    
+
     return Promise.all([...fontPromises, ...imagePromises]);
   };
   return isReady ? (
@@ -41,7 +42,6 @@ export default function App() {
         <Gate />
       </PersistGate>
     </Provider>
-    
   ) : (
     <AppLoading
       onError={console.error}
