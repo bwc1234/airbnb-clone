@@ -10,7 +10,7 @@ const Container = styled.View`
 const SV = styled.ScrollView``;
 
 const Title = styled.Text`
-  font-size: 38px;
+  font-size: 36px;
   margin-bottom: 10px;
 `;
 
@@ -21,7 +21,7 @@ export default ({ rooms }) => (
     <Title>Favourites</Title>
     <SV
       showsVertivalScrollIndicator={false}
-      contentContainerStyle={{ paddingBottom: 10 }}
+      contentContainerStyle={{ paddingBottom: 50 }}
     >
       {rooms.length !== 0 ? (
         rooms.map((room) => (
