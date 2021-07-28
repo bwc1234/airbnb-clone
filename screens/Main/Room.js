@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Ionicons } from "@expo/vector-icons";
+import MapView, { Marker } from "react-native-maps";
 import colors from "../../colors";
 import RoomPhotos from "../../components/RoomPhotos";
 import utils from "../../utils";
@@ -49,6 +50,12 @@ const CheckTitle = styled.Text`
 
 const CheckTime = styled.Text`
   margin-top: 10px;
+`;
+
+const MapContainer = styled.View`
+  width: 100%;
+  height: 200px;
+  margin-top: 30px;
 `;
 
 function formatQtt(number, name) {
@@ -100,6 +107,29 @@ export default ({ route: { params }, navigation }) => {
             {formatTime(params.check_in)} / {formatTime(params.check_out)}
           </CheckTime>
         </CheckContiner>
+        <MapContainer>
+          <MapView
+            camera={{
+              center: {
+                latitude: parseFloat(params.lat),
+                longitude: parseFloat(params.lng),
+              },
+              altitude: 10 * 200,
+              pitch: 50,
+              heading: 0,
+            }}
+            zoomEnabled={false}
+            scrollEnabled={false}
+            style={{ height: "100%", width: "100%" }}
+          >
+            <Marker
+              coordinate={{
+                latitude: parseFloat(params.lat),
+                longitude: parseFloat(params.lng),
+              }}
+            ></Marker>
+          </MapView>
+        </MapContainer>
       </DataContainer>
     </Container>
   );
