@@ -28,7 +28,30 @@ const CancelContainer = styled.TouchableOpacity``;
 
 const CancelText = styled.Text``;
 
-const Text = styled.Text``;
+const FiltersContainer = styled.ScrollView`
+  flex-direction: row;
+  margin-top: 10px;
+`;
+
+const FilterContainer = styled.View`
+  align-items: center;
+  margin-right: 15px;
+`;
+
+const FilterLabel = styled.Text`
+  text-transform: uppercase;
+  font-size: 12px;
+  margin-bottom: 5px;
+  font-weight: 500;
+`;
+
+const Filter = styled.TextInput`
+  padding: 10px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 1px 2.5px 2.5px rgba(200, 200, 200, 0.5);
+  width: 80px;
+`;
 
 export default () => {
   const navigation = useNavigation();
@@ -41,9 +64,28 @@ export default () => {
             <CancelText>Cancel</CancelText>
           </CancelContainer>
         </SerachContainer>
-        <TextInput placeholder="beds" keyboardType={"number-pad"} />
-        <TextInput placeholder="bedrooms" keyboardType={"number-pad"} />
-        <TextInput placeholder="bathrooms" keyboardType={"number-pad"} />
+        <FiltersContainer
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingVertical: 10, paddingHorizontal: 20 }}
+        >
+          <FilterContainer>
+            <FilterLabel>Beds</FilterLabel>
+            <Filter placeholder="0" keyboardType={"number-pad"} />
+          </FilterContainer>
+          <FilterContainer>
+            <FilterLabel>Bedrooms</FilterLabel>
+            <Filter placeholder="0" keyboardType={"number-pad"} />
+          </FilterContainer>
+          <FilterContainer>
+            <FilterLabel>Bathrooms</FilterLabel>
+            <Filter placeholder="0" keyboardType={"number-pad"} />
+          </FilterContainer>
+          <FilterContainer>
+            <FilterLabel>Max Price</FilterLabel>
+            <Filter placeholder="0" keyboardType={"number-pad"} />
+          </FilterContainer>
+        </FiltersContainer>
       </Container>
     </DismissKeyboard>
   );
