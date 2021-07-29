@@ -1,9 +1,11 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
-import { TextInput } from "react-native";
+import { ActivityIndicator, Keyboard, TextInput } from "react-native";
 import styled from "styled-components/native";
 import DismissKeyboard from "../../../components/DismissKeyboard";
 import colors from "../../../colors";
+import api from "../../../api";
+import RoomCard from "../../../components/RoomCard";
 
 const Container = styled.View``;
 
@@ -68,21 +70,41 @@ const SearchText = styled.Text`
   font-size: 16px;
 `;
 
+const ResultText = styled.Text`
+  margin-top: 10px;
+  font-size: 16px;
+  text-align: center;
+`;
+
+const Results = styled.ScrollView`
+  margin-top: 25px;
+`;
+
 export default () => {
   const navigation = useNavigation();
+  const [searching, setSearching] = useState(false);
   const [beds, setBeds] = useState();
   const [bedrooms, setBedrooms] = useState();
   const [bathrooms, setBathrooms] = useState();
   const [maxPrice, setMaxPrice] = useState();
-  const submit = () => {
-    //call api
+  const [results, setResults] = useState();
+  const triggerSearch = async () => {
+    setSearching(true);
     const form = {
       ...(beds && { beds }),
       ...(bedrooms && { bedrooms }),
       ...(bathrooms && { bathrooms }),
       ...(maxPrice && { max_price: maxPrice }),
     };
-    console.log(form);
+    try {
+      const { data } = await api.search(form, "nn");
+      setResults(data);
+    } catch (e) {
+      console.warn(e);
+    } finally {
+      Keyboard.dismiss();
+      setSearching(false);
+    }
   };
 
   return (
@@ -141,9 +163,31 @@ export default () => {
             </FilterContainer>
           </FiltersContainer>
         </Container>
-        <SearchBtn onPress={submit}>
-          <SearchText>Search</SearchText>
+        <SearchBtn onPress={searching ? null : triggerSearch}>
+          {searching ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <SearchText>Search</SearchText>
+          )}
         </SearchBtn>
+        {results ? (
+          <ResultText>Showing {results.count} results</ResultText>
+        ) : null}
+
+        <Results contentContainerStyle={{ paddingHorizontal: 15 }}>
+          {results?.results?.map((room) => (
+            <RoomCard
+              key={room.id}
+              name={room.name}
+              price={room.price}
+              photos={room.photos}
+              id={room.id}
+              isFav={room.is_fav}
+              isSuperhost={room.user.superhost}
+              roomObj={room}
+            />
+          ))}
+        </Results>
       </>
     </DismissKeyboard>
   );
