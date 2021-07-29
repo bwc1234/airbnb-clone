@@ -1,13 +1,50 @@
-import React from "react";
-import styled from "styled-components/native";
-import SerachPresenter from "./SerachPresenter";
+import { useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
+import { Keyboard } from "react-native";
+import api from "../../../api";
+import SearchPresenter from "./SerachPresenter";
 
-const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
+export default ({ token }) => {
+  const navigation = useNavigation();
+  const [searching, setSearching] = useState(false);
+  const [beds, setBeds] = useState();
+  const [bedrooms, setBedrooms] = useState();
+  const [bathrooms, setBathrooms] = useState();
+  const [maxPrice, setMaxPrice] = useState();
+  const [results, setResults] = useState();
+  const triggerSearch = async () => {
+    setSearching(true);
+    const form = {
+      ...(beds && { beds }),
+      ...(bedrooms && { bedrooms }),
+      ...(bathrooms && { bathrooms }),
+      ...(maxPrice && { max_price: maxPrice }),
+    };
+    try {
+      const { data } = await api.search(form, token);
+      setResults(data);
+    } catch (e) {
+      console.warn(e);
+    } finally {
+      Keyboard.dismiss();
+      setSearching(false);
+    }
+  };
 
-const Text = styled.Text``;
-
-export default () => <SerachPresenter />;
+  return (
+    <SearchPresenter
+      navigation={navigation}
+      beds={beds}
+      setBeds={setBeds}
+      bedrooms={bedrooms}
+      setBedrooms={setBedrooms}
+      bathrooms={bathrooms}
+      setBathrooms={setBathrooms}
+      maxPrice={maxPrice}
+      setMaxPrice={setMaxPrice}
+      searching={searching}
+      triggerSearch={triggerSearch}
+      results={results}
+    />
+  );
+};
